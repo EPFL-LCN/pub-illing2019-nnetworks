@@ -23,7 +23,7 @@ rectifyfeatures = true # Otherwise patchy PCA/ICA is not more powerful than glob
 dataset = "MNIST" # dataset to be used: "MNIST" or "CIFAR10"
 colorimage = dataset == "CIFAR10"
 patch_size = 10 # (linear) patch size of receptive field in first layer p ∈ [1,28] or [1,32] for MNIST/CIFAR10 resp.
-n_patches = 500
+n_patches = 500 # number of feature extraction patches
 n_hidden_per_patch = 10 # hidden neurons/features per patch. Overall number of hidden neurons is: n_patches * n_hidden_per_patch
 n_inits = 3 # number of initializations per net (for averaging)
 iterations = 10^6 # iterations per initialization
