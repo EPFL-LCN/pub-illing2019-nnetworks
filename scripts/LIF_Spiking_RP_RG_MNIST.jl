@@ -19,14 +19,14 @@ using EventBasedIntegrator, LinearAlgebra, ProgressMeter, Knet
 mode = "RG"
 # OR "RP"
 
-n_hidden = 50 # number of hidden neurons
+n_hidden = 100 # number of hidden neurons
 patchsize = 10 # (linear) patch size of receptive fields in first layer p ∈ [1,28]
-n_iterations = 10^4 # number of iterations (images) for training
+n_iterations = 10^6 # number of iterations (images) for training
 learningrate = 2e-4 # learning rate for STDP in second layer
-n_eval_trn = n_eval_tst = 10^3 # number of patterns used for evaluation (train & test).
+n_eval_trn = n_eval_tst = 10^4 # number of patterns used for evaluation (train & test).
 # This is done because evaluating the whole train and test sets might take a long time.
 # For the paper the whole data sets were evaluated:
-# (n_eval_trn = size(smallimgs)[2], n_eval_tst = size(smallimgstest)[2])
+# (n_eval_trn = 6 * 10^4, n_eval_tst = 10^4)
 doEuler = true # decides whether Euler forward integration (true) or event based integration is used (false)
 
 ###################################################
