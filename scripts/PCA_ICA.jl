@@ -1,6 +1,6 @@
 ####################################################
 # Script to train a patchy PCA/ICA network with 1 hidden layer (SGD)
-# patch connectivity is controled via "patch_size" & "n_hidden_per_patch" variables
+# patch connectivity is controled via "n_patches" & "n_hidden_per_patch" variables
 
 ###################################################
 # Include libraries and core
@@ -14,7 +14,7 @@ include("./../src/ratenets/helpers_patchy.jl")
 ###################################################
 # Define task and network
 
-# Should PCA or ICA be used for feature extraction?
+# This keyword decides whether PCA or ICA is used for feature extraction:
 featurefunction = getPCAscores
 # OR: getICAscores
 
@@ -22,7 +22,7 @@ featurefunction = getPCAscores
 rectifyfeatures = true # Otherwise patchy PCA/ICA is not more powerful than global PCA/ICA (since vanilla PCA/ICA is linear)
 dataset = "MNIST" # dataset to be used: "MNIST" or "CIFAR10"
 colorimage = dataset == "CIFAR10"
-patch_size = 10 # (linear) patch size of receptive field in first layer p ∈ [1,28] or [1,32] for MNIST/CIFAR10 resp.
+patch_size = 10 # (linear) patch size of receptive fields in first layer p ∈ [1,28] or [1,32] for MNIST/CIFAR10 resp.
 n_patches = 500 # number of feature extraction patches
 n_hidden_per_patch = 10 # hidden neurons/features per patch. Overall number of hidden neurons is: n_patches * n_hidden_per_patch
 n_inits = 3 # number of initializations per net (for averaging)

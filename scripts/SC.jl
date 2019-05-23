@@ -1,10 +1,10 @@
 ####################################################
 # Script to train a patchy SC network with 1 hidden layer (SGD)
-# patch connectivity is controled via "patch_size" & "n_hidden_per_patch" variables
+# patch connectivity is controled via "n_patches" & "n_hidden_per_patch" variables
 # Algorithm for sparse coding as proposed in:
-# Brito CSN, GerstnerW(2016) PLoS Comput Biol 12(9).
+#   Brito CSN, GerstnerW(2016) PLoS Comput Biol 12(9).
 # OR (depending on "Földiak_model" boolian)
-# Földiak 1990 Biol. Cybernetics
+#   Földiak 1990 Biol. Cybernetics
 
 ###################################################
 # Include libraries and core

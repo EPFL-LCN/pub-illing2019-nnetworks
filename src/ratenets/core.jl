@@ -323,7 +323,7 @@ end
 
 #############################################################
 #Data Import
-function import_data(data::String)
+function import_data(dataset::String)
 	if dataset == "CIFAR10"
 		smallimgs, labels, smallimgstest, labelstest = cifar10()
 	    smallimgs = reshape(smallimgs, 32^2 * 3, 50000)
