@@ -7,10 +7,6 @@ by
 
 Bernd Illing, Wulfram Gerstner, Johanni Brea
 
-to appear in the journal
-
-Neural Networks (Elsevier), 2019
-
 Contact:
 bernd.illing@epfl.ch
 
