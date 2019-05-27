@@ -8,7 +8,7 @@
 ###################################################
 # Include libraries and core
 
-using Pkg; Pkg.activate("./../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
+using Pkg; Pkg.activate("./../../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
 push!(LOAD_PATH, string(pwd(),"./../src/lifintegrator/core/"))
 using EventBasedIntegrator, LinearAlgebra, ProgressMeter
 

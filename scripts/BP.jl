@@ -5,7 +5,7 @@
 ###################################################
 # Include libraries and core
 
-using Pkg; Pkg.activate("./../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
+using Pkg; Pkg.activate("./../../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
 include("./../src/ratenets/core.jl")
 
 ###################################################
@@ -13,10 +13,10 @@ include("./../src/ratenets/core.jl")
 
 dataset = "MNIST" # dataset to be used: "MNIST" or "CIFAR10"
 colorimage = dataset == "CIFAR10"
-hidden_size = 1000 # number of neurons in hidden layer (0 for simple perceptron)
+hidden_size = 100 # number of neurons in hidden layer (0 for simple perceptron)
 patch_size = 10 # (linear) patch size of receptive field in first layer p ∈ [1,28] or [1,32] for MNIST/CIFAR10 resp.
-n_inits = 3 # number of initializations per net (for averaging)
-iterations = 10^6 # iterations per initialization
+n_inits = 1 # number of initializations per net (for averaging)
+iterations = 10^5 # iterations per initialization
 learningrates = 5e-3*[1; 1] # learningrates per layer
 nonlinearity = [relu!, relu!] # nonlinearities
 nonlinearity_diff = [relu_diff!, relu_diff!]

@@ -9,7 +9,7 @@
 ###################################################
 # Include libraries and core
 
-using Pkg; Pkg.activate("./../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
+using Pkg; Pkg.activate("./../../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
 using ProgressMeter, LinearAlgebra, Statistics, Distributions
 include("./../src/autoencoders/autoencoders.jl")
 

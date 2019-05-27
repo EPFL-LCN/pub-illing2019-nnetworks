@@ -4,7 +4,7 @@
 ###################################################
 # Include libraries and core
 
-using Pkg; Pkg.activate("./../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
+using Pkg; Pkg.activate("./../../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
 include("./../src/ratenets/core.jl")
 
 ###################################################
