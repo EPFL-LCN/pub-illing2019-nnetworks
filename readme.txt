@@ -18,6 +18,7 @@ The naming convention is the same as in the paper, e.g. to run the Sparse Coding
 
 julia SC.jl
 
+(Note: at first execution all dependencies will be installed and the dataset(s) will be downloaded. This could take a few minutes.)
 To access or change parameters of the simulations please have a look at the respective script.
 Especially for the spiking LIF simulations runtime is a serious problem.
 Even though some time was spent on optimising for speed, certain scripts run up to a week (single thread on an Intel Xeon E5-2680 v3 2.5 GHz) for the parameters given in the paper.
