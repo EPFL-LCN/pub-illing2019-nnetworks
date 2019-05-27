@@ -6,9 +6,7 @@
 ###################################################
 # Include libraries and core
 
-using Knet
-include(Knet.dir("data", "cifar.jl"))
-include(Knet.dir("data", "mnist.jl"))
+using Pkg; Pkg.activate("./../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
 include("./../src/ratenets/core.jl")
 
 ###################################################

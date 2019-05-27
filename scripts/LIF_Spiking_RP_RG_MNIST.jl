@@ -8,8 +8,9 @@
 ###################################################
 # Include libraries and core
 
+using Pkg; Pkg.activate("./../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
 push!(LOAD_PATH, string(pwd(),"./../src/lifintegrator/core/"))
-using EventBasedIntegrator, LinearAlgebra, ProgressMeter, Knet
+using EventBasedIntegrator, LinearAlgebra, ProgressMeter
 
 ###################################################
 # Define task and network
@@ -25,14 +26,13 @@ n_iterations = 10^6 # number of iterations (images) for training
 learningrate = 2e-4 # learning rate for STDP in second layer
 n_eval_trn = n_eval_tst = 10^4 # number of patterns used for evaluation (train & test).
 # This is done because evaluating the whole train and test sets might take a long time.
-# For the paper the whole data sets were evaluated:
-# (n_eval_trn = 6 * 10^4, n_eval_tst = 10^4)
+# For the paper the whole data sets were evaluated: (n_eval_trn = 6 * 10^4, n_eval_tst = 10^4)
 doEuler = true # decides whether Euler forward integration (true) or event based integration is used (false)
 
 ###################################################
 # Load and preprocess data
 
-include(Knet.dir("data", "mnist.jl"))
+using Knet; include(Knet.dir("data", "mnist.jl"))
 function import_mnist()
     smallimgs, labels, smallimgstest, labelstest = mnist()
     smallimgs = reshape(smallimgs, 28^2, 60000)
@@ -86,7 +86,7 @@ elapsed = @elapsed @showprogress for i in 1:n_iterations
     in_amplitude = in_amplitude)
   plasticityrule.islearning = false # learning off during transient
   endtime += transient_duration
-  integratenet!(network, input, endtime) # integrate transient
+  integratenet!(network, input, endtime) # integrate transient phase
 
   plasticityrule.islearning = true # enable learning and define target
   plasticityrule.targets[end-n_out+1:end] = [Int(i == label+1) for i in 1:n_out]*teacher_amplitude

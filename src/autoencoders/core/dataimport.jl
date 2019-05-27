@@ -2,6 +2,9 @@
 #############################################################
 #Data Import and Preprocesing
 
+using Knet
+include(Knet.dir("data", "cifar.jl"))
+include(Knet.dir("data", "mnist.jl"))
 function import_data(dataset::String)
 	if dataset == "CIFAR10"
 		smallimgs, labels, smallimgstest, labelstest = cifar10()

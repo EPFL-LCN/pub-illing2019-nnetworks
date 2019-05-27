@@ -9,10 +9,9 @@
 ###################################################
 # Include libraries and core
 
-using ProgressMeter, Distributions, LinearAlgebra, Statistics, Knet
+using Pkg; Pkg.activate("./../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
+using ProgressMeter, LinearAlgebra, Statistics, Distributions
 include("./../src/autoencoders/autoencoders.jl")
-include(Knet.dir("data", "cifar.jl"))
-include(Knet.dir("data", "mnist.jl"))
 
 ###################################################
 # Define task and network

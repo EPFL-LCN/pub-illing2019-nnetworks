@@ -5,9 +5,7 @@
 ###################################################
 # Include libraries and core
 
-using Knet
-include(Knet.dir("data", "cifar.jl"))
-include(Knet.dir("data", "mnist.jl"))
+using Pkg; Pkg.activate("./../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
 include("./../src/ratenets/core.jl")
 
 ###################################################
@@ -22,7 +20,6 @@ iterations = 10^6 # iterations per initialization
 learningrates = 5e-3*[1; 1] # learningrates per layer
 nonlinearity = [relu!, relu!] # nonlinearities
 nonlinearity_diff = [relu_diff!, relu_diff!]
-
 
 ###################################################
 # Load and preprocess data

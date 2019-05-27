@@ -5,9 +5,7 @@
 ###################################################
 # Include libraries and core
 
-using Knet
-include(Knet.dir("data", "cifar.jl"))
-include(Knet.dir("data", "mnist.jl"))
+using Pkg; Pkg.activate("./../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
 include("./../src/ratenets/core.jl")
 include("./../src/ratenets/helpers_patchy.jl")
 
@@ -17,7 +15,6 @@ include("./../src/ratenets/helpers_patchy.jl")
 # This keyword decides whether PCA or ICA is used for feature extraction:
 featurefunction = getPCAscores
 # OR: getICAscores
-
 
 rectifyfeatures = true # Otherwise patchy PCA/ICA is not more powerful than global PCA/ICA (since vanilla PCA/ICA is linear)
 dataset = "MNIST" # dataset to be used: "MNIST" or "CIFAR10"
