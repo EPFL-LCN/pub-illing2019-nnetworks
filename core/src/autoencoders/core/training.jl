@@ -57,6 +57,7 @@ function trainSAEc_full_patchy!(smallimgs,smallimgstest,labels,labelstest,
 				conf.configSAE_sparse.noise[1],conf.configSAE_sparse.nonlinearity[1],
 				conf.configSAE_sparse.nonlinearity_diff[1],true)
 
+	print("train sparse coding layer...\n")
 	learnAE_Brito_patchy!(AE_s_p, getsmallimg, confae.iterations, confae.learningrates,
 						confae.weight_decay, confae.noise_type, confae.noise, confae.lambda;
 						nonlinearity = confae.nonlinearity, nonlinearity_diff = confae.nonlinearity_diff,
@@ -70,6 +71,7 @@ function trainSAEc_full_patchy!(smallimgs,smallimgstest,labels,labelstest,
 	sae.nae = 1
 	sae.aes = [deepcopy(AE_s_p)]
 
+	print("generate sparse hidden representations...\n")
 	generatehiddenreps_Brito!(sae,1, smallimgs, smallimgstest, confae;
 		no_recurrence = no_recurrence_after_training,
 		Földiak_model = Földiak_model, rand_patch_pos = rand_patch_pos,
