@@ -5,9 +5,9 @@
 ###################################################
 # Include libraries and core
 
-using Pkg; Pkg.activate("./../../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
-include("./../src/ratenets/core.jl")
-include("./../src/ratenets/helpers_patchy.jl")
+using Pkg; Pkg.activate("./../core/"); Pkg.instantiate()
+include("./../core/src/ratenets/core.jl")
+include("./../core/src/ratenets/helpers_patchy.jl")
 
 ###################################################
 # Define task and network

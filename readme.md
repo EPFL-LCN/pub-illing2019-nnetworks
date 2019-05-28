@@ -33,11 +33,11 @@ Even though quite some effort was spent on optimising for speed, certain scripts
 
 ## Core source code
 
-You can find the core source code used by the above mentioned scripts in "src". This code is collected from three different frameworks,
+You can find the core source code used by the above mentioned scripts in "core". This code is collected from three different frameworks,
 
 * autoencoders
 * lifintegrator
 * ratenets
 
-that were developed for different purposes. For that reason different scripts have different syntax.
-The julia project environment (BioPlausibleShallowDeepLearning/, activated automatically in every script) should take care of all dependencies.
+that were developed for different purposes. For that reason different the scripts have different syntax.
+The julia project environment (core/, activated automatically in every script) should take care of all dependencies.

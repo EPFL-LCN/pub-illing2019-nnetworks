@@ -9,9 +9,9 @@
 ###################################################
 # Include libraries and core
 
-using Pkg; Pkg.activate("./../../BioPlausibleShallowDeepLearning/"); Pkg.instantiate()
+using Pkg; Pkg.activate("./../core/"); Pkg.instantiate()
 using ProgressMeter, LinearAlgebra, Statistics, Distributions
-include("./../src/autoencoders/autoencoders.jl")
+include("./../core/src/autoencoders/autoencoders.jl")
 
 ###################################################
 # Define task and network
