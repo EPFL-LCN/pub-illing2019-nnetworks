@@ -22,7 +22,7 @@ All other (julia) dependencies and packages will be installed or updated automat
 The main simulations of the publication can be replicated with the scripts collected in "scripts".
 The naming convention is the same as in the paper. E.g. to run the Sparse Coding simulation, cd to the "scripts" directory and run:
 
-julia SC.jl
+$ julia SC.jl
 
 (Note: at first execution all dependencies will be installed and the dataset(s) will be downloaded which could take a few minutes)
 
