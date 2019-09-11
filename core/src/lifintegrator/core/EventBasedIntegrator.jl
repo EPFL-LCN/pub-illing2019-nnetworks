@@ -83,7 +83,7 @@ include("helpers.jl")
                          recorder = AllSpikesRecorder(),
                          plasticityrule = NoPlasticity())
 """
-function BalancedNet(n_of_neurons, J, g, parameters = LIFParams();
+function BalancedNet(n_of_neurons, J, g; parameters = LIFParams(),
                      f = 3/4, recorder = AllSpikesRecorder(),
                      plasticityrule = NoPlasticity(),
                      noise = NoNoise())
