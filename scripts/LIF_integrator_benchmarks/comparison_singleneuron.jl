@@ -17,8 +17,7 @@ ABSOLUTE_REFRACTORY_PERIOD = 0. # * b2.ms
 using Pkg; Pkg.activate("./../../core/"); Pkg.instantiate()
 push!(LOAD_PATH, string(pwd(),"./../../core/src/lifintegrator/core/"))
 using EventBasedIntegrator, LinearAlgebra, ProgressMeter
-using TimerOutputs
-using CPUTime
+using TimerOutputs, CPUTime, BenchmarkTools
 
 include("./eventbasedlifintegrator_defs/eventbasedlifintegrator_defs.jl")
 
@@ -45,7 +44,7 @@ py"""
 import sys
 import brian2 as b2
 
-b2.set_device('cpp_standalone')
+set_device('cpp_standalone', build_on_run=False)
 
 sys.path.append('/Users/Bernd/Documents/PhD/Drafts/draft_mnistbenchmarks/BioPlausibleShallowDeepLearning/scripts/LIF_integrator_benchmarks/brian2_defs/')
 from brian2_defs import simulate_LIF_neuron

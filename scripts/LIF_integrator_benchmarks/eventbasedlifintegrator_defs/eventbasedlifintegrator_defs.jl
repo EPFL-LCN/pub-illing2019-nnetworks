@@ -21,19 +21,22 @@ function simulate_LIF_neuron(input_current;
 
     network.v[1] = v_rest
 
-    input = input_current + v_reset # network.parameters.reset # This causes HUGE slowdown?!
+    input = input_current + network.parameters.reset
+
+    integratenet!(network, input, simulation_time)
+    rec = deepcopy(network.recorder)
 
     start_wallclock = time_ns()
     start_cpu = CPUtime_us()
 
-    integratenet!(network, input, simulation_time)
+    @benchmark integratenet!(network, input, simulation_time)
 
     end_cpu = CPUtime_us()
     end_wallclock = time_ns()
     time_elapsed_wallclock = (end_wallclock - start_wallclock) / 1e9
     time_elapsed_cpu = (end_cpu - start_cpu) / 1e6
 
-    return network, network.recorder, time_elapsed_wallclock, time_elapsed_cpu
+    return network, rec, time_elapsed_wallclock, time_elapsed_cpu
 end
 
 function simulate_balanced_network(input_current;

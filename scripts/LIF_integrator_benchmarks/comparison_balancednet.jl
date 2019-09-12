@@ -1,6 +1,6 @@
 dt = .01
 t_end = 1e3 # ms
-in_current = 1.
+in_current = 0.
 
 V_REST = -65. # * b2.mV
 V_RESET = -65. # * b2.mV
@@ -32,6 +32,7 @@ network_julia, spike_monitor_julia, time_elapsed_wallclock_julia, time_elapsed_c
                         membrane_time_scale=MEMBRANE_TIME_SCALE,
                         abs_refractory_period=ABSOLUTE_REFRACTORY_PERIOD)
 
+spike_times_julia = [spike[2] for spike in spike_monitor_julia.spikes]
 # get the (2) weights for init of python network?
 
 ###############################################################################
@@ -44,10 +45,16 @@ py"""
 import sys
 import brian2 as b2
 
-b2.set_device('cpp_standalone')
+set_device('cpp_standalone', build_on_run=False)
 
 sys.path.append('/Users/Bernd/Documents/PhD/Drafts/draft_mnistbenchmarks/BioPlausibleShallowDeepLearning/scripts/LIF_integrator_benchmarks/brian2_defs/')
+from brian2_defs import simulate_balanced_network
+
+spike_monitor_brian2 = simulate_balanced_network()
 """
+
+spike_monitor_brian2 = py"spike_monitor_brian2"
+spike_times_brian2 = 1e3 .* spike_monitor_brian2.spike_trains()[0]
 
 ###############################################################################
 
