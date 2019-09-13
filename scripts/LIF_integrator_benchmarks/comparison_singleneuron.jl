@@ -1,7 +1,7 @@
 
-dts = 2.0 .^ collect(-9:1:3) # collect(-9:1:3)
+dts = 2.0 .^ collect(-12:2:2) # collect(-9:1:3)
 t_end = 1e3 # ms
-in_current = 5.
+in_current = 8.
 
 V_REST = -65. # * b2.mV
 V_RESET = -65. # * b2.mV
@@ -108,7 +108,7 @@ function single_neuron_brian2(dt; first_init = false)
     for x in profiling_summary push!(profiling_times, x[2][1]) end
     profiling_time_brian2 = sum(profiling_times)
 
-    spike_times_brian2 = 1e3 .* spike_monitor_brian2.spike_trains()[0] .- t_end
+    spike_times_brian2 = 1e3 .* spike_monitor_brian2.spike_trains()[0]
     return profiling_time_brian2, spike_times_brian2
 end
 
@@ -122,10 +122,6 @@ for i in 1:length(dts)
 end
 write(fid, "profiling_times", profiling_times_brian2)
 close(fid)
-
-###############################################################################
-
-
 
 ###############################################################################
 
