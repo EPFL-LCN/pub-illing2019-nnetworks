@@ -1,4 +1,3 @@
-
 function simulate_LIF_neuron(input_current;
                                 simulation_time = 5,
                                 dt = dt,
@@ -13,30 +12,22 @@ function simulate_LIF_neuron(input_current;
     params = LIFParams(; tau = membrane_time_scale, reset = v_reset,
                             threshold = firing_threshold, delay = dt,
                             refractory_period = abs_refractory_period)
-    network = FeedForwardNet([1], params;
+    network_init = FeedForwardNet([1], params;
                                 recorder = AllSpikesRecorder(),
                                 plasticityrule = NoPlasticity)
 
-    doEuler && (network = EulerNet(network; Δt = dt))
+    doEuler && (network_init = EulerNet(network_init; Δt = dt))
+    network_init.v[1] = v_rest
+    network = deepcopy(network_init)
 
-    network.v[1] = v_rest
+    input = input_current + network_init.parameters.reset
 
-    input = input_current + network.parameters.reset
+    b = @benchmark integratenet!(x[1], x[2], x[3]) setup = (x = (deepcopy($network_init), copy($input), copy($simulation_time))) evals = 1;
+    profiling_time = BenchmarkTools.median(b).time 
 
     integratenet!(network, input, simulation_time)
     rec = deepcopy(network.recorder)
-
-    start_wallclock = time_ns()
-    start_cpu = CPUtime_us()
-
-    @benchmark integratenet!(network, input, simulation_time)
-
-    end_cpu = CPUtime_us()
-    end_wallclock = time_ns()
-    time_elapsed_wallclock = (end_wallclock - start_wallclock) / 1e9
-    time_elapsed_cpu = (end_cpu - start_cpu) / 1e6
-
-    return network, rec, time_elapsed_wallclock, time_elapsed_cpu
+    return network, rec, profiling_time / 1e9
 end
 
 function simulate_balanced_network(input_current;
@@ -58,15 +49,10 @@ function simulate_balanced_network(input_current;
     network = BalancedNet(n_of_neurons, J, g; parameters = params)
 
     doEuler && (network = EulerNet(network; Δt = dt))
-    start_wallclock = time_ns()
-    start_cpu = CPUtime_us()
 
     integratenet!(network, input_current, simulation_time)
 
-    end_cpu = CPUtime_us()
-    end_wallclock = time_ns()
-    time_elapsed_wallclock = (end_wallclock - start_wallclock) / 1e9
-    time_elapsed_cpu = (end_cpu - start_cpu) / 1e6
 
-    return network, network.recorder, time_elapsed_wallclock, time_elapsed_cpu
+
+    return network, network.recorder, profiling_time / 1e9
 end

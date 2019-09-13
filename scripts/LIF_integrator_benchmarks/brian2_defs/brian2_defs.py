@@ -5,6 +5,7 @@ from random import sample
 from numpy import random, floor
 from timeit import default_timer as timer
 import time
+import copy
 
 def simulate_LIF_neuron(input_current,
                         simulation_time=5. * b2.ms,
@@ -17,6 +18,8 @@ def simulate_LIF_neuron(input_current,
                         abs_refractory_period=2.0 * b2.ms):
 
 
+    b2.defaultclock.dt = dt * b2.ms
+
     # differential equation of Leaky Integrate-and-Fire model
     # eqs = """
     # dv/dt =
@@ -27,37 +30,36 @@ def simulate_LIF_neuron(input_current,
     ( -(v-v_rest) + membrane_resistance * input_current ) / membrane_time_scale : volt (unless refractory)
     """
 
-    # LIF neuron using Brian2 library
     neuron = b2.NeuronGroup(
         1, model=eqs, reset="v=v_reset", threshold="v>firing_threshold",
         refractory=abs_refractory_period, method="exact") # "euler" / "exact"
     neuron.v = v_rest  # set initial value
 
-    # monitoring membrane potential of neuron and injecting current
-    spike_monitor = b2.SpikeMonitor(neuron)
-
-    b2.defaultclock.dt = dt * b2.ms
-
-    network = b2.core.network.Network(b2.core.magic.collect())
-    # run the simulation
-
+    network = b2.core.network.Network(neuron)
+    # run before for compiling (JIT compile time out of timing)
     #network.run(simulation_time, profile=True)
-    start_wallclock = time.time()
-    start_cpu = time.clock() # timer()
+
+    spike_monitor = b2.SpikeMonitor(neuron)
+    network.add(spike_monitor)
+    neuron.v = v_rest
+
+    #start_wallclock = time.time()
+    #start_cpu = time.clock() # timer()
 
     network.run(simulation_time, profile=True)
 
-    end_cpu = time.clock() # timer()
-    end_wallclock = time.time()
-    time_elapsed_wallclock = end_wallclock - start_wallclock
-    time_elapsed_cpu = end_cpu - start_cpu
+    #end_cpu = time.clock() # timer()
+    #end_wallclock = time.time()
+    #time_elapsed_wallclock = end_wallclock - start_wallclock
+    #time_elapsed_cpu = end_cpu - start_cpu
 
-    device.build(directory='output', compile=True, run=True, debug=False)
+    b2.device.build(directory='output', clean=True, compile=True, run=True, debug=False)
 
     print("\n")
     print("brian2 profiling summary (listed by time consumption):\n")
     print(b2.profiling_summary())
-    return spike_monitor, time_elapsed_wallclock, time_elapsed_cpu, network.get_profiling_info()[0][1]
+
+    return spike_monitor, network.get_profiling_info() # time_elapsed_wallclock, time_elapsed_cpu,
 
 
 def simulate_balanced_network(input_current=0. * b2.namp,
