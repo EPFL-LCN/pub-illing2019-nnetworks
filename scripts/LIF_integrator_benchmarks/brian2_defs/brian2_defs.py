@@ -62,22 +62,21 @@ def simulate_LIF_neuron(input_current,
     return spike_monitor, network.get_profiling_info() # time_elapsed_wallclock, time_elapsed_cpu,
 
 
-def simulate_balanced_network(input_current=0. * b2.namp,
+def simulate_balanced_network(input_current,
         simulation_time=1000.*b2.ms,
         dt = 0.01,
         n_of_neurons=1000,
         f = 3/4,
         connection_probability=0.1,
-        w0=0.1 * b2.mV,
-        g=4.,
+        w0=0.2 * b2.mV, # J in julia EventBasedIntegrator
+        g=5.,
         membrane_resistance=10. * b2.Mohm,
-        poisson_input_rate=13. * b2.Hz,
+        #poisson_input_rate=13. * b2.Hz,
         v_rest=0. * b2.mV,
         v_reset=10. * b2.mV,
         firing_threshold=20. * b2.mV,
         membrane_time_scale=20. * b2.ms,
         abs_refractory_period=2.0 * b2.ms,
-        monitored_subset_size=100,
         random_vm_init=False):
 
     b2.defaultclock.dt = dt * b2.ms
@@ -96,7 +95,7 @@ def simulate_balanced_network(input_current=0. * b2.namp,
     neurons = NeuronGroup(
         N_Excit+N_Inhib, model=lif_dynamics,
         threshold="v>firing_threshold", reset="v=v_reset", refractory=abs_refractory_period,
-        method="linear") # "exact"?
+        method="exact") # "exact"/"linear"
     if random_vm_init:
         neurons.v = random.uniform(v_rest/b2.mV, high=firing_threshold/b2.mV, size=(N_Excit+N_Inhib))*b2.mV
     else:
@@ -110,25 +109,25 @@ def simulate_balanced_network(input_current=0. * b2.namp,
     inhib_synapses = Synapses(inhibitory_population, target=neurons, on_pre="v += J_inhib", delay=dt * b2.ms)
     inhib_synapses.connect(p=connection_probability)
 
-    monitored_subset_size = min(monitored_subset_size, (N_Excit+N_Inhib))
-    idx_monitored_neurons = sample(range(N_Excit+N_Inhib), monitored_subset_size)
-    spike_monitor = b2.SpikeMonitor(neurons, record=idx_monitored_neurons)
+    #monitored_subset_size = min(monitored_subset_size, (N_Excit+N_Inhib))
+    #idx_monitored_neurons = sample(range(N_Excit+N_Inhib), monitored_subset_size)
+    spike_monitor = b2.SpikeMonitor(neurons)#, record=idx_monitored_neurons)
 
     network = b2.core.network.Network(b2.core.magic.collect())
 
-    start_wallclock = time.time()
-    start_cpu = time.clock() # timer()
+    #start_wallclock = time.time()
+    #start_cpu = time.clock() # timer()
 
     network.run(simulation_time, profile=True)
 
-    end_cpu = time.clock() # timer()
-    end_wallclock = time.time()
-    time_elapsed_wallclock = end_wallclock - start_wallclock
-    time_elapsed_cpu = end_cpu - start_cpu
+    #end_cpu = time.clock() # timer()
+    #end_wallclock = time.time()
+    #time_elapsed_wallclock = end_wallclock - start_wallclock
+    #time_elapsed_cpu = end_cpu - start_cpu
 
-    device.build(directory='output', compile=True, run=True, debug=False)
+    b2.device.build(directory='output', clean=True, compile=True, run=True, debug=False)
 
     print("\n")
     print("brian2 profiling summary (listed by time consumption):\n")
     print(b2.profiling_summary())
-    return spike_monitor, time_elapsed_wallclock, time_elapsed_cpu, network.get_profiling_info()[0][1]
+    return spike_monitor, network.get_profiling_info() # time_elapsed_wallclock, time_elapsed_cpu

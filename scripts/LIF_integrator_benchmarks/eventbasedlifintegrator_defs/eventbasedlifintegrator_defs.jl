@@ -23,7 +23,7 @@ function simulate_LIF_neuron(input_current;
     input = input_current + network_init.parameters.reset
 
     b = @benchmark integratenet!(x[1], x[2], x[3]) setup = (x = (deepcopy($network_init), copy($input), copy($simulation_time))) evals = 1;
-    profiling_time = BenchmarkTools.median(b).time 
+    profiling_time = BenchmarkTools.median(b).time
 
     integratenet!(network, input, simulation_time)
     rec = deepcopy(network.recorder)
@@ -34,6 +34,7 @@ function simulate_balanced_network(input_current;
                                 n_of_neurons = 10^3,
                                 J = 0.2,
                                 g = 5.0,
+                                f = 3/4,
                                 simulation_time = 5,
                                 dt = dt,
                                 v_rest=-70, # * b2.mV
@@ -46,13 +47,18 @@ function simulate_balanced_network(input_current;
     params = LIFParams(; tau = membrane_time_scale, reset = v_reset,
                             threshold = firing_threshold, delay = dt,
                             refractory_period = abs_refractory_period)
-    network = BalancedNet(n_of_neurons, J, g; parameters = params)
+    network_init = BalancedNet(n_of_neurons, J, g; f = f, parameters = params)
 
-    doEuler && (network = EulerNet(network; Δt = dt))
+    doEuler && (network_init = EulerNet(network_init; Δt = dt))
+    network_init.v[:] .= v_rest
+    network = deepcopy(network_init)
 
-    integratenet!(network, input_current, simulation_time)
+    input = input_current + network_init.parameters.reset
 
+    b = @benchmark integratenet!(x[1], x[2], x[3]) setup = (x = (deepcopy($network_init), copy($input), copy($simulation_time))) evals = 1;
+    profiling_time = BenchmarkTools.median(b).time
 
-
-    return network, network.recorder, profiling_time / 1e9
+    integratenet!(network, input, simulation_time)
+    rec = deepcopy(network.recorder)
+    return network, rec, profiling_time / 1e9
 end

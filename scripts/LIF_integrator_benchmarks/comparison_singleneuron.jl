@@ -1,7 +1,7 @@
 
 dts = 2.0 .^ collect(-12:2:2) # collect(-9:1:3)
 t_end = 1e3 # ms
-in_current = 8.
+in_current = 5. # 8
 
 V_REST = -65. # * b2.mV
 V_RESET = -65. # * b2.mV
@@ -10,7 +10,7 @@ MEMBRANE_RESISTANCE = 10. # * b2.Mohm
 MEMBRANE_TIME_SCALE = 10. # * b2.ms
 ABSOLUTE_REFRACTORY_PERIOD = 0. # * b2.ms
 
-doEuler_julia = false
+#doEuler_julia = false
 
 ###############################################################################
 ## EventBasedIntegrator
