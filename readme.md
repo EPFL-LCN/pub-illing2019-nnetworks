@@ -8,7 +8,7 @@ Contact:
 
 ## Installation
 
-Dependencies:https://arxiv.org/abs/1905.04101
+Dependencies:
 
 * Mac or Linux
 * [Julia](https://julialang.org) (1.1 or higher)
