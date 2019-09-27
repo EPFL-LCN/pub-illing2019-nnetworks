@@ -1,16 +1,14 @@
 This is a (julia) code collection for the publication:
 
 B. Illing, W. Gerstner & J. Brea,
-[*Biologically plausible deep learning - but how far can we go with shallow networks?*](https://arxiv.org/abs/1905.04101), arXiv:1905.04101, Feb. 2019
-
-(to appear in [Neural Networks](https://www.journals.elsevier.com/neural-networks))
+[*Biologically plausible deep learning - but how far can we go with shallow networks?*](https://www.sciencedirect.com/science/article/pii/S0893608019301741?via%3Dihub), Neural Networks 118 (2019) 90-101
 
 Contact:
 [bernd.illing@epfl.ch](mailto:bernd.illing@epfl.ch)
 
 ## Installation
 
-Dependencies:
+Dependencies:https://arxiv.org/abs/1905.04101
 
 * Mac or Linux
 * [Julia](https://julialang.org) (1.1 or higher)
