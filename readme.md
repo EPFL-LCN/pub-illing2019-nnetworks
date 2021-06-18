@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/188856619.svg)](https://zenodo.org/badge/latestdoi/188856619)
+
 This is a (julia) code collection for the publication:
 
 B. Illing, W. Gerstner & J. Brea,
